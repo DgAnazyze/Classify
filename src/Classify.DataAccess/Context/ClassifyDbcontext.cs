@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Classify.DataAccess.Context;
 
-namespace Classify.DataAccess.Context
+public class ClassifyDbcontext
 {
-    internal class ClassifyDbcontext
-    {
-    }
 }
