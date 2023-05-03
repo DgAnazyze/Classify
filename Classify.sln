@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classify.Domain", "src\Clas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classify.Service", "src\Classify.Service\Classify.Service.csproj", "{DB52CCAD-B3A5-411B-AAB1-A82BA3381F42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classify.Api", "src\Classify.Api\Classify.Api.csproj", "{27C03FFD-84C3-4D6B-A1E7-0B1CB03B7270}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DB52CCAD-B3A5-411B-AAB1-A82BA3381F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB52CCAD-B3A5-411B-AAB1-A82BA3381F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB52CCAD-B3A5-411B-AAB1-A82BA3381F42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27C03FFD-84C3-4D6B-A1E7-0B1CB03B7270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C03FFD-84C3-4D6B-A1E7-0B1CB03B7270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C03FFD-84C3-4D6B-A1E7-0B1CB03B7270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C03FFD-84C3-4D6B-A1E7-0B1CB03B7270}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
