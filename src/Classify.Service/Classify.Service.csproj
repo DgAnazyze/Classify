@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Classify.Api\Classify.Api.csproj" />
     <ProjectReference Include="..\Classify.DataAccess\Classify.DataAccess.csproj" />
     <ProjectReference Include="..\Classify.Domain\Classify.Domain.csproj" />
   </ItemGroup>

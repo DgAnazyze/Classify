@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Classify.DataAccess\Classify.DataAccess.csproj" />
     <ProjectReference Include="..\Classify.Domain\Classify.Domain.csproj" />
+    <ProjectReference Include="..\Classify.Service\Classify.Service.csproj" />
   </ItemGroup>
 
 </Project>

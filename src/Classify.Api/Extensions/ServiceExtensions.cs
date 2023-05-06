@@ -1,7 +1,8 @@
 ﻿using Classify.DataAccess.Interfaces;
 using Classify.DataAccess.Repositories;
-//using Classify.Service.Interfaces;
+using Classify.Service.Interfaces;
 using Classify.Domain.Entities;
+using Classify.Service.Services;
 
 namespace Classify.Api.Extensions
 {
@@ -11,7 +12,7 @@ namespace Classify.Api.Extensions
         { 
             services.AddScoped<IRepository<Student>, GenericRepository<Student>>();
 
-            services.AddScoped<IExcelReaderService, ExcelReaderService>
+            services.AddScoped<IExcelReaderService, ExcelReaderService>();
         }
     }
 }
