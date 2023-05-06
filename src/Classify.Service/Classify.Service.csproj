@@ -6,4 +6,15 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Classify.Api\Classify.Api.csproj" />
+    <ProjectReference Include="..\Classify.DataAccess\Classify.DataAccess.csproj" />
+    <ProjectReference Include="..\Classify.Domain\Classify.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

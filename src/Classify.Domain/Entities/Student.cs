@@ -29,6 +29,4 @@ public class Student : Auditable
   
     [MaxLength(128)]
     public string Language { get; set; }
-
-
 }
