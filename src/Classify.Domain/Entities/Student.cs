@@ -15,7 +15,7 @@ public class Student : Auditable
     public string LastName { get; set; }
     
     [MaxLength(32)]
-    public string MidlleName { get; set; }
+    public string Surname { get; set; }
     public string BirthCertificateSeria { get; set; }
     public string BirthCertificateNumber { get; set; }
     public string PassportSeria { get; set; }
