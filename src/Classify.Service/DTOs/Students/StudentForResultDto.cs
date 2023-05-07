@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Classify.Service.DTOs.Students
 {
-    internal class StudentForResultDto
+    public class StudentForResultDto
     {
     }
 }
