@@ -1,6 +1,7 @@
 ﻿using Classify.DataAccess.Interfaces;
 using Classify.Domain.Entities;
 using Classify.Domain.Enums;
+using Classify.Service.Exceptions;
 using Classify.Service.Interfaces;
 using ExcelDataReader;
 using System.Data;
@@ -32,8 +33,8 @@ public class ExcelReaderService : IExcelReaderService
                         UseHeaderRow = false
                     }
                 };
-                var dataSet = reader.AsDataSet(configuration);
 
+                var dataSet = reader.AsDataSet(configuration);
                 if (dataSet.Tables.Count > 0)
                 {
                     var dataTable = dataSet.Tables[0];
@@ -65,8 +66,7 @@ public class ExcelReaderService : IExcelReaderService
                 }
                 else
                 {
-                    //Exception
-                    return false;
+                    throw new CustomerException(404, "Table not found!");
                 }
             }
         }
