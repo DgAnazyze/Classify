@@ -7,15 +7,12 @@ namespace Classify.Domain.Entities;
 public class Student : Auditable
 {
     public short Grade { get; set; }
-    
     [MaxLength(32)]
     public string FirstName { get; set; }
-    
     [MaxLength(32)]
     public string LastName { get; set; }
-    
     [MaxLength(32)]
-    public string MidlleName { get; set; }
+    public string Surname { get; set; }
     public string BirthCertificateSeria { get; set; }
     public string BirthCertificateNumber { get; set; }
     public string PassportSeria { get; set; }
