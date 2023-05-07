@@ -41,10 +41,10 @@ public class ExcelReaderService : IExcelReaderService
 
                     foreach (DataRow i in dataTable.Rows)
                     {
-                        Student student = new Student()
+                        Student student = new()
                         {
-                            Id = (long)i[0],
-                            Grade = (short)i[1],
+                            Id = long.Parse(i[0].ToString()),
+                            Grade = short.Parse(i[1].ToString()),
                             FirstName = i[2].ToString(),
                             LastName = i[3].ToString(),
                             Surname = i[4].ToString(),
@@ -52,12 +52,13 @@ public class ExcelReaderService : IExcelReaderService
                             BirthCertificateNumber = i[6].ToString(),
                             PassportSeria = i[7].ToString(),
                             PassportNumber = i[8].ToString(),
-                            Gender = (Gender)i[9],
+                            Gender = byte.Parse(i[9].ToString()),
                             Region = i[10].ToString(),
                             School = i[11].ToString(),
                             Bearings = i[12].ToString(),
                             Language = i[13].ToString()
                         };
+                        student.IsDeleted = false;
 
                         await this.repository.InserAsync(student);
                         await this.repository.SavaAsync();

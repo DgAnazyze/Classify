@@ -17,7 +17,7 @@ public class Student : Auditable
     public string BirthCertificateNumber { get; set; }
     public string PassportSeria { get; set; }
     public string PassportNumber { get; set; }
-    public Gender Gender { get; set; }
+    public short Gender { get; set; }
     
     [MaxLength(32)]
     public string Region {get; set;}

@@ -8,11 +8,11 @@ namespace Classify.Api.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void AddCustomerService(this IServiceCollection services)
+        public static void AddService(this IServiceCollection services)
         { 
-            services.AddScoped<IRepository<Student>, GenericRepository<Student>>();
-
             services.AddScoped<IExcelReaderService, ExcelReaderService>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
     }
 }
