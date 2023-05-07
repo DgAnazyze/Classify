@@ -12,4 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Classify.DataAccess\Classify.DataAccess.csproj" />
+    <ProjectReference Include="..\Classify.Domain\Classify.Domain.csproj" />
+    <ProjectReference Include="..\Classify.Service\Classify.Service.csproj" />
+  </ItemGroup>
+
 </Project>
