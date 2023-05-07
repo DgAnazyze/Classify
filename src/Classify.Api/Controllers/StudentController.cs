@@ -17,10 +17,11 @@ namespace Classify.Api.Controllers
             this.readerService = readerService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("Path")]
+        public async Task<IActionResult> Get(string path)
         {
-            return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
+            //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
+            return Ok(await this.readerService.GetFromExcelAsync(path));
         }
     }
 }
