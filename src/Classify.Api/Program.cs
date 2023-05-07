@@ -1,3 +1,4 @@
+using Classify.Api.Extensions;
 using Classify.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ClassifyDbcontext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddService();
 
 var app = builder.Build();
 
