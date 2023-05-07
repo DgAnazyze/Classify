@@ -3,6 +3,6 @@
     public enum Role
     {
         SuperAdmin = 0,
-        RegianAdmin = 1,
+        RegianAdmin = 1
     }
 }
