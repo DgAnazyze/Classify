@@ -6,12 +6,12 @@ using System.Linq.Expressions;
 
 namespace Classify.DataAccess.Repositories;
 
-public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
     protected readonly ClassifyDbcontext dbContext;
     protected readonly DbSet<TEntity> dbSet;
 
-    public GenericRepository(ClassifyDbcontext dbcontext)
+    public Repository(ClassifyDbcontext dbcontext)
     {
         this.dbContext = dbcontext;
         this.dbSet = dbcontext.Set<TEntity>();
