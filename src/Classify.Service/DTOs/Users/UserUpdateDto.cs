@@ -2,7 +2,7 @@
 
 namespace Classify.Service.DTOs.Users;
 
-public class UserCreationDto
+public class UserUpdateDto
 {
     [Required]
     public string FirstName { get; set; } = string.Empty;

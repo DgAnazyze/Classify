@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Classify.Domain.Entities;
+using Classify.Service.DTOs.Students;
+using System.Linq.Expressions;
 
-namespace Classify.Service.Interfaces
+namespace Classify.Service.Interfaces;
+
+public interface IStudentService
 {
-    internal class IStudentService
-    {
-    }
+    ValueTask<StudentResultDto> CreateAsync(StudentCreationDto studentCreationDto);
+    ValueTask<StudentResultDto> UpdateAsync(int id, StudentUpdateDto studentUpdateDto);
+    Task<bool> DeleteAsync(int id);
+    //ValueTask<IEnumerable<StudentResultDto>> GetAllAsync()
+    ValueTask<StudentResultDto> GetAsync(Expression<Func<Student, bool>> predicate);
 }

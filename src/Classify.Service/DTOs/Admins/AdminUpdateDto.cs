@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Classify.Service.DTOs.Users;
+namespace Classify.Service.DTOs.Administrator;
 
-public class UserCreationDto
+public class AdminUpdateDto
 {
     [Required]
     public string FirstName { get; set; } = string.Empty;
     [Required]
     public string LastName { get; set; } = string.Empty;
+    [Required]
+    public string Surname { get; set; } = string.Empty;
     [Required]
     public string PhoneNumber { get; set; } = string.Empty;
     [Required]

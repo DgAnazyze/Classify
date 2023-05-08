@@ -1,8 +1,7 @@
-﻿namespace Classify.Domain.Enums
+﻿namespace Classify.Domain.Enums;
+public enum UserRole
 {
-    public enum UserRole
-    {
-        Teacher,
-        SchoolAdmin,
-    }
+    Teacher,
+    SchoolAdmin,
+    User
 }

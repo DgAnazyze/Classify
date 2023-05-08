@@ -1,8 +1,6 @@
-﻿namespace Classify.Domain.Enums
+﻿namespace Classify.Domain.Enums;
+public enum Role
 {
-    public enum Role
-    {
-        SuperAdmin = 0,
-        RegianAdmin = 1
-    }
+    SuperAdmin = 0,
+    RegianAdmin = 1
 }
