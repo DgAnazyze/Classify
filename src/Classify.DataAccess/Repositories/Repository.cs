@@ -10,7 +10,6 @@ namespace Classify.DataAccess.Repositories;
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditable
 {
     protected readonly ClassifyDbcontext dbContext;
-
     protected readonly DbSet<TEntity> dbSet;
 
     public Repository(ClassifyDbcontext dbcontext)
@@ -47,7 +46,6 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         {
             foreach (string includeValue in include) query = query.Include(includeValue);
         }
-
         return query;
     }
     public async ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] include = null)
