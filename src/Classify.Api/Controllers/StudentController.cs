@@ -8,16 +8,22 @@ namespace Classify.Api.Controllers;
 public class Students : ControllerBase
 {
     protected readonly IExcelReaderService readerService;
+    protected readonly IStudentService studentService;
 
-    public Students(IExcelReaderService readerService)
-    { 
+    public Students(IExcelReaderService readerService, IStudentService studentService)
+    {
         this.readerService = readerService;
+        this.studentService = studentService;
     }
 
-    [HttpGet("Path")]
-    public async Task<IActionResult> Get(string path)
+    [HttpPost("Path")]
+    public async Task<IActionResult> Post(string path)
     {
         //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
         return Ok(await this.readerService.GetFromExcelAsync(path));
     }
+    [HttpGet("Id")]
+    public async Task<IActionResult> Get(int id)
+        => Ok(await this.studentService.GetAsync(x => x.Id == id));
+
 }

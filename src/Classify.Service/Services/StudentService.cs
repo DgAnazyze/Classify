@@ -4,7 +4,6 @@ using Classify.Domain.Entities;
 using Classify.Service.DTOs.Students;
 using Classify.Service.Exceptions;
 using Classify.Service.Interfaces;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Linq.Expressions;
 
 namespace Classify.Service.Services;
@@ -21,8 +20,8 @@ public class StudentService : IStudentService
 
     public async ValueTask<StudentResultDto> CreateAsync(StudentCreationDto studentCreationDto)
     {
-        var alreadyExistStudent = await this.studentRepository.SelectAsync(u => 
-        u.PassportNumber == studentCreationDto.PassportNumber || 
+        var alreadyExistStudent = await this.studentRepository.SelectAsync(u =>
+        u.PassportNumber == studentCreationDto.PassportNumber ||
         u.BirthCertificateNumber == studentCreationDto.BirthCertificateNumber);
 
         if (alreadyExistStudent is not null)
