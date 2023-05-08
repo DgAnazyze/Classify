@@ -7,13 +7,10 @@ namespace Classify.Api.Controllers
     [ApiController]
     public class Students : ControllerBase
     {
-
-        protected readonly ILogger<Students> logger;
         protected readonly IExcelReaderService readerService;
 
-        public Students(ILogger<Students> logger, IExcelReaderService readerService)
-        {
-            this.logger = logger;
+        public Students(IExcelReaderService readerService)
+        { 
             this.readerService = readerService;
         }
 
