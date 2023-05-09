@@ -1,5 +1,6 @@
 using Classify.Api.Extensions;
 using Classify.DataAccess.Context;
+using Classify.Service.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ClassifyDbcontext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 builder.Services.AddService();
 
