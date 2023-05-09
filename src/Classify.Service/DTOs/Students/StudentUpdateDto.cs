@@ -28,7 +28,7 @@ namespace Classify.Service.DTOs.Students
         [Required]
         public string PassportNumber { get; set; }
         [Required]
-        public Gender Gender { get; set; }
+        public byte Gender { get; set; }
         [Required]
         public string Region { get; set; }
         [Required]
