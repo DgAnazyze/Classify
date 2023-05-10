@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 namespace Classify.Domain.Enums
 {
     public enum Region
-    {   // For Super Admine
+    { 
+        // For Super Admine
         Republic = 0,
 
-        Toshkent,
+        ToshkentSh,
+        Tashkent,
         Andijan,
         Buxorom,
         Fargona,
