@@ -1,6 +1,6 @@
 ﻿using Classify.DataAccess.Interfaces;
 using Classify.Domain.Entities;
-using Classify.Service.Exceptions;
+using Classify.Service.Commons.Exceptions;
 using Classify.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -30,13 +30,13 @@ public class AuthService : IAuthService
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenKey = Encoding.UTF8.GetBytes(configuration["JWT:Key"]);
         var tokenDescriptor = new SecurityTokenDescriptor()
-        {
+        {   
             Subject = new ClaimsIdentity(new Claim[]
             {
                 new Claim("Id", user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
-                new Claim("Region", user.Address.ToString()),
-                new Claim("School", user.School.ToString())
+                new Claim("Region", user.Region.ToString()),
+                new Claim("School", user.School.ToString()),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             }),
             IssuedAt = DateTime.UtcNow,
             Expires = DateTime.UtcNow.AddMinutes(20),
