@@ -3,7 +3,7 @@ using Classify.DataAccess.Interfaces;
 using Classify.Domain.Configurations;
 using Classify.Domain.Entities;
 using Classify.Service.DTOs.Students;
-using Classify.Service.Exceptions;
+using Classify.Service.Commons.Exceptions;
 using Classify.Service.Interfaces;
 using System.Linq.Expressions;
 
