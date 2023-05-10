@@ -6,7 +6,10 @@ namespace Classify.DataAccess.Context;
 public class ClassifyDbcontext : DbContext
 {
     public ClassifyDbcontext(DbContextOptions<ClassifyDbcontext> options) 
-        : base(options){ }
+        : base(options)
+    {
+        Database.EnsureCreated();
+    }
 
     public DbSet<Student> Students { get; set; } 
     public DbSet<Administrator> Administrators { get; set; }

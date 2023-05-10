@@ -22,5 +22,7 @@ namespace Classify.Service.DTOs.Users
         public string Password { get; set; } = string.Empty;
         [Required]
         public string Address { get; set; } = string.Empty;
+        [Required]
+        public string School { get; set; } = string.Empty;
     }
 }
