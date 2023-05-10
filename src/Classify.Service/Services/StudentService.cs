@@ -3,7 +3,7 @@ using Classify.DataAccess.Interfaces;
 using Classify.Domain.Configurations;
 using Classify.Domain.Entities;
 using Classify.Service.DTOs.Students;
-using Classify.Service.Exceptions;
+using Classify.Service.Commons.Exceptions;
 using Classify.Service.Interfaces;
 using System.Linq.Expressions;
 
@@ -35,9 +35,32 @@ public class StudentService : IStudentService
         return this.mapper.Map<StudentForResultDto>(result);
     }
 
-    public ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto dto)
+    public async ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto studentUpdateDto)
     {
-        throw new NotImplementedException();
+        var student =  await this.repository.SelectAsync(s => s.Id == id);
+        if (student is null)
+            throw new CustomerException(404, "Couldn't find student for given id");
+
+        
+        student.Grade = (studentUpdateDto.Grade == 0 || studentUpdateDto.Grade <= 12) ? student.Grade : studentUpdateDto.Grade;
+        student.FirstName = String.IsNullOrEmpty(studentUpdateDto.FirstName) ? student.FirstName : studentUpdateDto.FirstName;
+        student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
+        student.Surname = String.IsNullOrEmpty(studentUpdateDto.Surname) ? student.Surname : studentUpdateDto.Surname;
+        student.BirthCertificateSeria = String.IsNullOrEmpty(studentUpdateDto.BirthCertificateSeria) ? student.BirthCertificateSeria : studentUpdateDto.BirthCertificateSeria;
+        student.BirthCertificateNumber = String.IsNullOrEmpty(studentUpdateDto.BirthCertificateNumber) ? student.BirthCertificateNumber : studentUpdateDto.BirthCertificateNumber;
+        student.PassportNumber = String.IsNullOrEmpty(studentUpdateDto.PassportNumber) ? student.PassportNumber : studentUpdateDto.PassportNumber;
+        student.PassportSeria = String.IsNullOrEmpty(studentUpdateDto.PassportSeria) ? student.PassportSeria : studentUpdateDto.PassportSeria;
+        student.Gender = studentUpdateDto.Gender;
+        student.Region = String.IsNullOrEmpty(studentUpdateDto.Region) ? student.Region : studentUpdateDto.Region;
+        student.School = String.IsNullOrEmpty(studentUpdateDto.School) ? student.School : studentUpdateDto.School;
+        student.Bearings = String.IsNullOrEmpty(studentUpdateDto.Bearings) ? student.Bearings : studentUpdateDto.Bearings;
+        student.Language = String.IsNullOrEmpty(studentUpdateDto.Language) ? student.Language : studentUpdateDto.Language;
+
+        student.UpdatedAt = DateTime.UtcNow;
+        this.repository.Update(id, student);
+        await this.repository.SavaAsync();
+
+        return this.mapper.Map<StudentForResultDto>(student);
     }
 
     public async ValueTask<bool> RemoveAsync(int id)

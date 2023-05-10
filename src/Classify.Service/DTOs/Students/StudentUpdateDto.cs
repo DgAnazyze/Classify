@@ -23,9 +23,7 @@ namespace Classify.Service.DTOs.Students
         public string BirthCertificateSeria { get; set; }
         [Required]
         public string BirthCertificateNumber { get; set; }
-        [Required]
         public string PassportSeria { get; set; }
-        [Required]
         public string PassportNumber { get; set; }
         [Required]
         public byte Gender { get; set; }
