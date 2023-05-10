@@ -1,6 +1,5 @@
 ﻿using Classify.Api.Models;
 using Classify.Service.Commons.Exceptions;
-using Microsoft.Extensions.FileProviders.Physical;
 
 namespace Classify.Api.Middleware
 {

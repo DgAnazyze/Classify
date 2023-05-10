@@ -7,13 +7,13 @@ namespace Classify.Domain.Entities
     public class User : Auditable
     {
         [MaxLength(32)]
-        public string FirstName { get; set; } 
+        public string FirstName { get; set; } = string.Empty;
         [MaxLength(32)]
-        public string LastName { get; set; } 
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; } 
-        public string PasswordHash { get; set; }
-        public string Address { get; set; } 
+        public string LastName { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
+        public Region Region { get; set; } 
         public Role Role { get; set; }
     }
 }
