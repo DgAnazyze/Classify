@@ -35,9 +35,23 @@ public class StudentService : IStudentService
         return this.mapper.Map<StudentForResultDto>(result);
     }
 
-    public ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto dto)
+    public async ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto studentUpdateDto)
     {
-        throw new NotImplementedException();
+        var student =  await this.repository.SelectAsync(s => s.Id == id);
+        if (student is null)
+            throw new CustomerException(404, "Couldn't find student for given id");
+
+        if (studentUpdateDto is not null)
+        {
+            student.FirstName = String.IsNullOrEmpty(studentUpdateDto.FirstName) ? student.FirstName : studentUpdateDto.FirstName;
+            student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
+            student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
+            student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
+            student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
+            student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
+
+
+        }
     }
 
     public async ValueTask<bool> RemoveAsync(int id)
