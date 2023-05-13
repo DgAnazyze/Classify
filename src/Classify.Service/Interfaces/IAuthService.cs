@@ -1,6 +1,8 @@
-﻿namespace Classify.Service.Interfaces;
+﻿using Classify.Service.DTOs.LoginDto;
+
+namespace Classify.Service.Interfaces;
 
 public interface IAuthService
 {
-    ValueTask<string> GenerateToken(string email, string password);
+    public Task<LoginResultDto> AuthenticateAsync(string email, string password);
 }
