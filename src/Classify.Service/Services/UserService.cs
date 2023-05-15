@@ -55,8 +55,11 @@ namespace Classify.Service.Services
             return this.mapper.Map<UserForResultDto>(user);
            }
 
-        public Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
+        public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
         {
+            var user = await this.repository.SelectAsync(u => u.Id == id);
+            if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
+
         }
 
         public Task<bool> RemoveAsync(long id)
