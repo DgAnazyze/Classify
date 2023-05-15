@@ -36,9 +36,9 @@ namespace Classify.Service.Services
             return this.mapper.Map<UserForResultDto>(result);
         }
 
-        public Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
+        public async Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
         {
-            throw new NotImplementedException();
+            var user = await this.repository.SelectAsync(u => u.PhoneNumber == dto.p)
         }
 
         public Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
