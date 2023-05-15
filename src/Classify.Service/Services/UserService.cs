@@ -3,6 +3,8 @@ using Classify.DataAccess.Interfaces;
 using Classify.Domain.Configurations;
 using Classify.Domain.Entities;
 using Classify.Domain.Enums;
+using Classify.Service.Commons.Exceptions;
+using Classify.Service.Commons.Helper.Security;
 using Classify.Service.DTOs.Users;
 using Classify.Service.Interfaces;
 
@@ -21,17 +23,43 @@ namespace Classify.Service.Services
 
         public async Task<UserForResultDto> AddAsync(UserCreationDto dto)
         {
-            throw new NotImplementedException();
+            var user = await this.repository.SelectAsync((u) => u.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower()
+            && u.Email.ToLower() == dto.Email.ToLower());
+
+            if (user is not null)
+                throw new CustomerException(403, "User is already exists");
+
+            var mapped = this.mapper.Map<User>(dto);
+            mapped.CreatedAt = DateTime.UtcNow;
+            mapped.PasswordHash = PasswordHasher.Hash(dto.Password);
+            var result = await this.repository.InserAsync(mapped);
+            return this.mapper.Map<UserForResultDto>(result);
         }
 
-        public Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
+        public async Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
         {
-            throw new NotImplementedException();
-        }
+            var user = await this.repository.SelectAsync(u => u.PhoneNumber == dto.PhoneNumber);
+            if (user is null || user.IsDeleted)
+                throw new CustomerException(404, "User not found");
 
-        public Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
+            if (!PasswordHasher.Verify(dto.OldPassword, user.PasswordHash))
+                throw new CustomerException(400, "Password is incorrect");
+
+            if (dto.NewPassword != dto.OldPassword)
+                throw new CustomerException(400, "New password and confir password aren't equal");
+
+            user.PasswordHash = PasswordHasher.Hash(dto.NewPassword);
+
+            await this.repository.SavaAsync();
+
+            return this.mapper.Map<UserForResultDto>(user);
+           }
+
+        public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
         {
-            throw new NotImplementedException();
+            var user = await this.repository.SelectAsync(u => u.Id == id);
+            if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
+
         }
 
         public Task<bool> RemoveAsync(long id)
