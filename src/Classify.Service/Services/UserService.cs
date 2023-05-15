@@ -4,6 +4,7 @@ using Classify.Domain.Configurations;
 using Classify.Domain.Entities;
 using Classify.Domain.Enums;
 using Classify.Service.Commons.Exceptions;
+using Classify.Service.Commons.Helper.Security;
 using Classify.Service.DTOs.Users;
 using Classify.Service.Interfaces;
 
@@ -30,9 +31,9 @@ namespace Classify.Service.Services
 
             var mapped = this.mapper.Map<User>(dto);
             mapped.CreatedAt = DateTime.UtcNow;
+            mapped.PasswordHash = PasswordHasher.Hash(dto.Password);
             var result = await this.repository.InserAsync(mapped);
             return this.mapper.Map<UserForResultDto>(result);
-
         }
 
         public Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
