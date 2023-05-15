@@ -38,12 +38,25 @@ namespace Classify.Service.Services
 
         public async Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
         {
-            var user = await this.repository.SelectAsync(u => u.PhoneNumber == dto.p)
-        }
+            var user = await this.repository.SelectAsync(u => u.PhoneNumber == dto.PhoneNumber);
+            if (user is null || user.IsDeleted)
+                throw new CustomerException(404, "User not found");
+
+            if (!PasswordHasher.Verify(dto.OldPassword, user.PasswordHash))
+                throw new CustomerException(400, "Password is incorrect");
+
+            if (dto.NewPassword != dto.OldPassword)
+                throw new CustomerException(400, "New password and confir password aren't equal");
+
+            user.PasswordHash = PasswordHasher.Hash(dto.NewPassword);
+
+            await this.repository.SavaAsync();
+
+            return this.mapper.Map<UserForResultDto>(user);
+           }
 
         public Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
         {
-            throw new NotImplementedException();
         }
 
         public Task<bool> RemoveAsync(long id)
