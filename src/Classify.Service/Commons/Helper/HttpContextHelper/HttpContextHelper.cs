@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Classify.Service.Commons.Helper;
+namespace Classify.Service.Commons.Helper.HttpContextHelper;
 
 public class HttpContextHelper
 {

@@ -5,8 +5,8 @@ namespace Classify.Service.DTOs.Users
 {
     public class UserForChangePasswordDto
     {
-        [Required(ErrorMessage = "Email is requaried!")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "PhoneNumber is requaried!")]
+        public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Old password must not be null or empty!")]
         public string OldPassword { get; set; }
