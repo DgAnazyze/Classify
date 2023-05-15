@@ -4,7 +4,6 @@ namespace Classify.Service.Commons.Helper;
 
 public class HttpContextHelper
 {
-
     public IHttpContextAccessor Accessor { get; set; }
     public HttpContext HttpContext => Accessor?.HttpContext;
 
