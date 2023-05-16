@@ -20,7 +20,6 @@ namespace Classify.Service.Services
             this.repository = repository;
             this.mapper = mapper;
         }
-
         public async Task<UserForResultDto> AddAsync(UserCreationDto dto)
         {
             var user = await this.repository.SelectAsync((u) => u.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower()
