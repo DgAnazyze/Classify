@@ -52,11 +52,9 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
     {
         return await this.SelectAll(expression, include).FirstOrDefaultAsync();
     }
-    public void Update(long id,TEntity entity)
-    {
-        entity.Id = id;
-        dbContext.Update(entity);
-    }
+    public async ValueTask<TEntity> Update(TEntity entity) =>
+        this.dbSet.Update(entity).Entity;
+    
     public bool DeleteManyAsync(Expression<Func<TEntity, bool>> expression)
     {
         var entities = dbSet.Where(expression);
