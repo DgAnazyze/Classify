@@ -5,7 +5,7 @@ namespace Classify.Service.DTOs.Users
     public class UserForUpdateDto
     {
         [Required]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [Required]
         public string FirstName { get; set; } = string.Empty;
         [Required]

@@ -5,6 +5,7 @@ using Classify.Domain.Entities;
 using Classify.Domain.Enums;
 using Classify.Service.Commons.Exceptions;
 using Classify.Service.Commons.Helper.Security;
+using Classify.Service.DTOs.Students;
 using Classify.Service.DTOs.Users;
 using Classify.Service.Interfaces;
 
@@ -54,10 +55,16 @@ namespace Classify.Service.Services
             return this.mapper.Map<UserForResultDto>(user);
            }
 
-        public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
+        public async Task<UserForResultDto> ModifyAsync(UserForUpdateDto dto)
         {
-            var user = await this.repository.SelectAsync(u => u.Id == id);
+            var user = await this.repository.SelectAsync(u => u.Id == dto.Id);
             if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
+
+            user.FirstName = String.IsNullOrEmpty(dto.FirstName) ? user.FirstName : dto.FirstName;
+            user.LastName = String.IsNullOrEmpty(dto.LastName) ? user.LastName : dto.LastName;
+            user.PhoneNumber = String.IsNullOrEmpty(dto.PhoneNumber) ? user.PhoneNumber : dto.PhoneNumber;
+            user.Email = String.IsNullOrEmpty(dto.Email) ? user.Email : dto.Email;
+            user. = String.IsNullOrEmpty(dto.FirstName) ? user.FirstName : dto.FirstName;
 
         }
 

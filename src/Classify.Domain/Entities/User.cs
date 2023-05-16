@@ -14,6 +14,7 @@ namespace Classify.Domain.Entities
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public string School { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
         public Region Region { get; set; } 
         public Role Role { get; set; }
     }
