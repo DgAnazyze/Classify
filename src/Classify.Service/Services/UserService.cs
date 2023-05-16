@@ -64,18 +64,31 @@ namespace Classify.Service.Services
             user.LastName = String.IsNullOrEmpty(dto.LastName) ? user.LastName : dto.LastName;
             user.PhoneNumber = String.IsNullOrEmpty(dto.PhoneNumber) ? user.PhoneNumber : dto.PhoneNumber;
             user.Email = String.IsNullOrEmpty(dto.Email) ? user.Email : dto.Email;
-            user. = String.IsNullOrEmpty(dto.FirstName) ? user.FirstName : dto.FirstName;
+            user.Address = String.IsNullOrEmpty(dto.Address) ? user.Address : dto.Address;
+            user.School = String.IsNullOrEmpty(dto.School) ? user.School : dto.School;
 
+            user.UpdatedAt = DateTime.UtcNow;
+            await this.repository.SavaAsync();
+
+            return this.mapper.Map<UserForResultDto>(user);
         }
 
-        public Task<bool> RemoveAsync(long id)
+        public async Task<bool> RemoveAsync(long id)
         {
-            throw new NotImplementedException();
+            var user = await this.repository.SelectAsync(u => u.Id == id);
+            if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
+
+            await this.repository.DeleteAsync(u => u.Id == id);
+            await this.repository.SavaAsync();
+            return true;
         }
 
-        public Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params)
+        public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params)
         {
-            throw new NotImplementedException();
+           var users = this.repository.SelectAll().
+                Where(u => u.IsDeleted == false).ToPagedList()
+                
+
         }
 
         public Task<IEnumerable<UserForResultDto>> RetrieveAllByRoleAsync(PaginationParams @params, Role role = Role.RegianAdmin)

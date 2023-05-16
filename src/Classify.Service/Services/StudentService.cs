@@ -57,7 +57,6 @@ public class StudentService : IStudentService
         student.Language = String.IsNullOrEmpty(studentUpdateDto.Language) ? student.Language : studentUpdateDto.Language;
 
         student.UpdatedAt = DateTime.UtcNow;
-        this.repository.Update(id, student);
         await this.repository.SavaAsync();
 
         return this.mapper.Map<StudentForResultDto>(student);
