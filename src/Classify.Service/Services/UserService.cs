@@ -183,7 +183,12 @@ namespace Classify.Service.Services
 
             return this.mapper.Map<UserForResultDto>(user);
         }
-
+        /// <summary>
+        /// Selects a user from db by followinf expression
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        /// <exception cref="CustomerException"></exception>
         public async Task<User> SelectAsync(Expression<Func<User,bool>> expression)
         {
             var user = await this.repository.SelectAsync(expression);
