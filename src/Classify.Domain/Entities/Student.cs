@@ -19,7 +19,7 @@ public class Student : Auditable
     public string PassportNumber { get; set; }
     public byte Gender { get; set; }
     
-    [MaxLength(32)]
+    [MaxLength(128)]
     public string Region {get; set;}
     public string School { get; set;}
     public string Bearings { get; set; }
