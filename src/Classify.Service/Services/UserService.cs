@@ -10,6 +10,7 @@ using Classify.Service.DTOs.Students;
 using Classify.Service.DTOs.Users;
 using Classify.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Classify.Service.Services
 {
@@ -183,6 +184,12 @@ namespace Classify.Service.Services
             return this.mapper.Map<UserForResultDto>(user);
         }
 
+        public async Task<User> SelectAsync(Expression<Func<User,bool>> expression)
+        {
+            var user = await this.repository.SelectAsync(expression);
+            if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
+            return user;
+        }
         
     }
 }
