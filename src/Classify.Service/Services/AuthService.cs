@@ -51,8 +51,7 @@ public class AuthService : IAuthService
     //}
     public async Task<LoginResultDto> AuthenticateAsync(string email, string password)
     {
-        var user = await this.userService.RetrieveByEmailAsync(email);
-        if (user == null || PasswordHasher.Verify(password,user.pas)
+        var user = await this.userService.re
     }
 
 }
