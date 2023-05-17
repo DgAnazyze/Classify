@@ -1,6 +1,7 @@
 ﻿using Classify.DataAccess.Interfaces;
 using Classify.Domain.Entities;
 using Classify.Service.Commons.Exceptions;
+using Classify.Service.Commons.Helper.Security;
 using Classify.Service.DTOs.LoginDto;
 using Classify.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -48,9 +49,10 @@ public class AuthService : IAuthService
     //    var token = tokenHandler.CreateToken(tokenDescriptor);
     //    return tokenHandler.WriteToken(token);
     //}
-    public Task<LoginResultDto> AuthenticateAsync(string email, string password)
+    public async Task<LoginResultDto> AuthenticateAsync(string email, string password)
     {
-        throw new NotImplementedException();
+        var user = await this.userService.RetrieveByEmailAsync(email);
+        if (user == null || PasswordHasher.Verify(password,user.pas)
     }
 
 }
