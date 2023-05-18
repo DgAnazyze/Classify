@@ -1,7 +1,6 @@
 ﻿using Classify.DataAccess.Interfaces;
 using Classify.Domain.Entities;
-using Classify.Domain.Enums;
-using Classify.Service.Exceptions;
+using Classify.Service.Commons.Exceptions;
 using Classify.Service.Interfaces;
 using ExcelDataReader;
 using System.Data;
@@ -18,7 +17,12 @@ public class ExcelReaderService : IExcelReaderService
         this.repository = repository;
     }
 
-    public async Task<bool> GetFromExcelAsync(string path)
+    public Task<bool> GetFromDbAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> GetFromExcelAsync()
     {
         //  var path = "C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx";
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
