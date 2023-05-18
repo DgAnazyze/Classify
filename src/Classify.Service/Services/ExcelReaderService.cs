@@ -22,7 +22,7 @@ public class ExcelReaderService : IExcelReaderService
         throw new NotImplementedException();
     }
 
-    public async Task<bool> GetFromExcelAsync()
+    public async Task<bool> GetFromExcelAsync(string path)
     {
         //  var path = "C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx";
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

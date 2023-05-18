@@ -23,9 +23,27 @@ public class Students : ControllerBase
     [HttpPost("Path")]
     public async Task<IActionResult> Post([FromForm] FileDto file)
     {
-        string d = string.Empty;
-        //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
-        return Ok(await this.readerService.GetFromExcelAsync(d));
+        /* string d = string.Empty;
+         //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
+         return Ok(await this.readerService.GetFromExcelAsync(d));*/
+        if (file != null && file.File.Length > 0)
+        {
+            var filePath = Path.GetTempFileName(); // Генерируем уникальное имя для временного файла
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                file.File.CopyTo(stream); // Сохраняем файл на сервере
+            }
+
+            // Получаем путь к сохраненному файлу
+            var savedFilePath = Path.GetFullPath(filePath);
+
+            // Дальнейшая обработка пути файла
+            return Ok(readerService.GetFromExcelAsync(savedFilePath));
+        }
+        else
+        {
+            return BadRequest("Файл не был загружен.");
+        }
     }
 
     [HttpGet("Id")]
