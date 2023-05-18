@@ -21,9 +21,9 @@ public class Students : ControllerBase
     }
 
     [HttpPost("Path")]
-    public async Task<IActionResult> Post([FromForm]FileDto file)
+    public async Task<IActionResult> Post([FromForm] FileDto file)
     {
-        string d = string.Empty;
+        //string d = file;
         //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
         return Ok(await this.readerService.GetFromExcelAsync(d));
     }

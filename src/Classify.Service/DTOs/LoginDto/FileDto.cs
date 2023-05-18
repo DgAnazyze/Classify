@@ -9,8 +9,7 @@ namespace Classify.Service.DTOs.LoginDto
 {
     public class FileDto
     {
-        public string Name { get; set; }
+       public string Name { get; set; }
         public IFormFile File { get; set; }
-
     }
 }

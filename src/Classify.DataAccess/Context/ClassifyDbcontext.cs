@@ -12,6 +12,5 @@ public class ClassifyDbcontext : DbContext
     }
 
     public DbSet<Student> Students { get; set; } 
-   // public DbSet<Administrator> Administrators { get; set; }
     public DbSet<User> Users { get; set; }
 }
