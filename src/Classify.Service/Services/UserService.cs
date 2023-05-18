@@ -163,7 +163,7 @@ namespace Classify.Service.Services
        /// <exception cref="CustomerException"></exception>
         public async Task<UserForResultDto> RetrieveByPhoneNumberAsync(string phoneNumber)
         {
-            var user = await this.repository.SelectAsync(user => user.PhoneNumber.ToLower() == email.ToLower());
+            var user = await this.repository.SelectAsync(user => user.PhoneNumber.ToLower() == phoneNumber.ToLower());
             if (user is null)
                 throw new CustomerException(404, "Couldn't find user by given Phone Number");
 

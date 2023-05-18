@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Classify.Domain\Classify.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commons\Helper\HttpContextHelper\" />
-  </ItemGroup>
-
 </Project>
