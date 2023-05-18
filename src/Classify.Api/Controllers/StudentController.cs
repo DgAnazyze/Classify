@@ -1,4 +1,5 @@
-﻿using Classify.Service.DTOs.LoginDto;
+﻿using Classify.Domain.Entities;
+using Classify.Service.DTOs.LoginDto;
 using Classify.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +21,10 @@ public class Students : ControllerBase
         this.studentService = studentService;
     }
 
-    [HttpPost("Path")]
-    public async Task<IActionResult> Post([FromForm] FileDto file)
+    [HttpPost("upload")]
+    public async Task<IActionResult> Post([FromForm] FileDto file)//string path)//[FromForm] FileDto file)
     {
-        /* string d = string.Empty;
-         //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
-         return Ok(await this.readerService.GetFromExcelAsync(d));*/
+        // return Ok(await this.readerService.GetFromExcelAsync(path));
         if (file != null && file.File.Length > 0)
         {
             var filePath = Path.GetTempFileName(); // Генерируем уникальное имя для временного файла
@@ -38,7 +37,7 @@ public class Students : ControllerBase
             var savedFilePath = Path.GetFullPath(filePath);
 
             // Дальнейшая обработка пути файла
-            return Ok(readerService.GetFromExcelAsync(savedFilePath));
+            return Ok(await this.readerService.GetFromExcelAsync(savedFilePath));
         }
         else
         {
