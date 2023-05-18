@@ -1,7 +1,6 @@
 ﻿using Classify.DataAccess.Interfaces;
 using Classify.Domain.Entities;
-using Classify.Domain.Enums;
-using Classify.Service.Exceptions;
+using Classify.Service.Commons.Exceptions;
 using Classify.Service.Interfaces;
 using ExcelDataReader;
 using System.Data;
@@ -16,6 +15,11 @@ public class ExcelReaderService : IExcelReaderService
     public ExcelReaderService(IRepository<Student> repository)
     {
         this.repository = repository;
+    }
+
+    public Task<bool> GetFromDbAsync()
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<bool> GetFromExcelAsync(string path)

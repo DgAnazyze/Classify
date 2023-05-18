@@ -53,4 +53,8 @@ public class AuthService : IAuthService
         throw new NotImplementedException();
     }
 
+    public ValueTask<string> GenerateToken(string email, string password)
+    {
+        throw new NotImplementedException();
+    }
 }

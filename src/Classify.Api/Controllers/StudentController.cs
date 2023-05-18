@@ -1,4 +1,5 @@
-﻿using Classify.Service.Interfaces;
+﻿using Classify.Service.DTOs.LoginDto;
+using Classify.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Classify.Api.Controllers;
@@ -20,10 +21,11 @@ public class Students : ControllerBase
     }
 
     [HttpPost("Path")]
-    public async Task<IActionResult> Post(string path)
+    public async Task<IActionResult> Post([FromForm]FileDto file)
     {
+        string d = string.Empty;
         //return Ok(await this.readerService.GetFromExcelAsync("C:\\Users\\Djava\\Desktop\\SirdaryoPrezident.xlsx"));
-        return Ok(await this.readerService.GetFromExcelAsync(path));
+        return Ok(await this.readerService.GetFromExcelAsync(d));
     }
 
     [HttpGet("Id")]

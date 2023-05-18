@@ -5,4 +5,5 @@ namespace Classify.Service.Interfaces;
 public interface IExcelReaderService
 {
     public Task<bool> GetFromExcelAsync(string path);
+    public Task<bool> GetFromDbAsync();
 }
