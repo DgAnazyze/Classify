@@ -15,10 +15,8 @@ public interface IStudentService
        PaginationParams @params, string search = null);
     public ValueTask<IEnumerable<StudentForResultDto>> RetrieveBySchoolAsync(
         PaginationParams @params, string search = null);
-   public ValueTask<StudentForResultDto> RetrieveByPassportNumberAsync(
-        Expression<Func<Student, bool>> expression = null);
-   public ValueTask<StudentForResultDto> RetrieveByBirthCertificateNumberAsync(
-        Expression<Func<Student, bool>> expression = null);
+   public ValueTask<StudentForResultDto> RetrieveByPassportNumberAsync(string search = null);
+   public ValueTask<StudentForResultDto> RetrieveByBirthCertificateNumberAsync(string search = null);
     public ValueTask<StudentForResultDto> RetrieveById(int id);
     public ValueTask<bool> RemoveAsync(int id);
     public ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto dto);

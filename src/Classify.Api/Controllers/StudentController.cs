@@ -21,7 +21,7 @@ public class Students : ControllerBase
         this.studentService = studentService;
     }
 
-    [HttpPost("upload")]
+    [HttpGet("upload")]
     public async Task<IActionResult> Post([FromForm] FileDto file)//string path)//[FromForm] FileDto file)
     {
         // return Ok(await this.readerService.GetFromExcelAsync(path));
