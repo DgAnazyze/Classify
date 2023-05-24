@@ -1,5 +1,7 @@
-﻿using Classify.Domain.Entities;
+﻿using Classify.Domain.Configurations;
+using Classify.Domain.Entities;
 using Classify.Service.DTOs.LoginDto;
+using Classify.Service.DTOs.Students;
 using Classify.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +23,7 @@ public class Students : ControllerBase
         this.studentService = studentService;
     }
 
-    [HttpGet("upload")]
+    [HttpPost("upload")]
     public async Task<IActionResult> Post([FromForm] FileDto file)//string path)//[FromForm] FileDto file)
     {
         // return Ok(await this.readerService.GetFromExcelAsync(path));
@@ -44,8 +46,35 @@ public class Students : ControllerBase
             return BadRequest("Файл не был загружен.");
         }
     }
+    [HttpPost("add")]
+    public async Task<IActionResult> AddStudentAsync(StudentCreationDto dto) =>
+      Ok(await studentService.AddAsync(dto));
+
+    [HttpPatch("update")]
+    public async Task<IActionResult> UpdateStudentAsync(int id, StudentUpdateDto dto) =>
+        Ok(await studentService.ModifyAsync(id, dto));
 
     [HttpGet("Id")]
-    public async Task<IActionResult> GetById(int id) =>
+    public async Task<IActionResult> GetByIdAsync(int id) =>
         Ok(await studentService.RetrieveById(id));
-    }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string search) =>
+       Ok(await studentService.RetrieveAllAsync(@params, search));
+
+    [HttpGet("Number of birth certificate")]
+    public async Task<IActionResult> GetByBirthCertificateNumberAsync(string certificateNumber) =>
+        Ok(await studentService.RetrieveByBirthCertificateNumberAsync(certificateNumber));
+
+    [HttpGet("Number of passport")]
+    public async Task<IActionResult> GetByPassportNumberAsync(string passportNumber) =>
+        Ok(await studentService.RetrieveByPassportNumberAsync(passportNumber));
+
+    [HttpGet("school")]
+    public async Task<IActionResult> GetBySchoolAsync([FromQuery] PaginationParams @params, string school) =>
+        Ok(await studentService.RetrieveBySchoolAsync(@params, school));
+
+    [HttpGet("region")]
+    public async Task<IActionResult> GetByRegionAsync([FromQuery] PaginationParams @params, string region) =>
+        Ok(await studentService.RetrieveByRegionAsync(@params, region));    
+}

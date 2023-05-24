@@ -5,6 +5,7 @@ namespace Classify.Service.DTOs.Students
 {
     public class StudentCreationDto
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Grade is required")]
         public short Grade { get; set; }
         [Required,MaxLength(32)]

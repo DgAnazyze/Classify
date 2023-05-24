@@ -32,15 +32,13 @@ public class StudentService : IStudentService
     /// <exception cref="CustomerException"></exception>
     public async ValueTask<StudentForResultDto> AddAsync(StudentCreationDto studentCreationDto)
     {
-        var student = await this.repository.SelectAsync(u =>
-        u.BirthCertificateNumber == studentCreationDto.BirthCertificateNumber ||
-        u.PassportNumber == studentCreationDto.PassportNumber);
-        if (student is not null && student.IsDeleted == false)
+        var student = await this.repository.SelectAsync(u => u.Id == studentCreationDto.Id);
+        if (student != null)
             throw new CustomerException(403, "Student already exist");
 
         var mapperStudent = this.mapper.Map<Student>(studentCreationDto);
         var result = await this.repository.InserAsync(mapperStudent);
-        await this.repository.SavaAsync();
+    //    await this.repository.SavaAsync();
 
         return this.mapper.Map<StudentForResultDto>(result);
     }

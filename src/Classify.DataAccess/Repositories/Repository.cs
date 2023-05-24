@@ -20,6 +20,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
     public async ValueTask<TEntity> InserAsync(TEntity entity)
     {
         EntityEntry<TEntity> entry = await this.dbSet.AddAsync(entity);
+        await dbContext.SaveChangesAsync();
 
         return entry.Entity;
     }
@@ -44,7 +45,10 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
 
         if (include is not null)
         {
-            foreach (string includeValue in include) query = query.Include(includeValue);
+            foreach (string includeValue in include)
+            {
+                query = query.Include(includeValue);
+            }
         }
         return query;
     }
