@@ -3,6 +3,7 @@ using Classify.Domain.Entities;
 using Classify.Domain.Enums;
 using Classify.Service.DTOs.Users;
 using Classify.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ public class UserController : ControllerBase
         this.userService = userService;
     }
 
-    [HttpPost("add")]
+    [HttpPost("add"), Authorize("SuperAdmin")]
     public async Task<IActionResult> AddUserAsync(UserCreationDto dto) =>
         Ok(await this.userService.AddAsync(dto));
 
