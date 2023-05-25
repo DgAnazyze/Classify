@@ -13,7 +13,7 @@ namespace Classify.Service.DTOs.Students
         [Required, MaxLength(32)]
         public string LastName { get; set; }
         [Required, MaxLength(32)]
-        public string Surname { get; set; }
+        public string MiddleName { get; set; }
         public string BirthCertificateSeria { get; set; }
         public string BirthCertificateNumber { get; set; }
         public string PassportSeria { get; set; }

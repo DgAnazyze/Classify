@@ -48,33 +48,37 @@ public class Students : ControllerBase
     }
     [HttpPost("add")]
     public async Task<IActionResult> AddStudentAsync(StudentCreationDto dto) =>
-      Ok(await studentService.AddAsync(dto));
+      Ok(await this.studentService.AddAsync(dto));
 
     [HttpPatch("update")]
     public async Task<IActionResult> UpdateStudentAsync(int id, StudentUpdateDto dto) =>
-        Ok(await studentService.ModifyAsync(id, dto));
+        Ok(await this.studentService.ModifyAsync(id, dto));
+   
+    [HttpDelete("id")]
+    public async Task<IActionResult> DeleteAsync(int id) =>
+        Ok(await this.studentService.RemoveAsync(id));
 
     [HttpGet("Id")]
     public async Task<IActionResult> GetByIdAsync(int id) =>
-        Ok(await studentService.RetrieveById(id));
+        Ok(await this.studentService.RetrieveById(id));
 
     [HttpGet("all")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string search) =>
-       Ok(await studentService.RetrieveAllAsync(@params, search));
+       Ok(await this.studentService.RetrieveAllAsync(@params, search));
 
     [HttpGet("Number of birth certificate")]
     public async Task<IActionResult> GetByBirthCertificateNumberAsync(string certificateNumber) =>
-        Ok(await studentService.RetrieveByBirthCertificateNumberAsync(certificateNumber));
+        Ok(await this.studentService.RetrieveByBirthCertificateNumberAsync(certificateNumber));
 
     [HttpGet("Number of passport")]
     public async Task<IActionResult> GetByPassportNumberAsync(string passportNumber) =>
-        Ok(await studentService.RetrieveByPassportNumberAsync(passportNumber));
+        Ok(await this.studentService.RetrieveByPassportNumberAsync(passportNumber));
 
     [HttpGet("school")]
     public async Task<IActionResult> GetBySchoolAsync([FromQuery] PaginationParams @params, string school) =>
-        Ok(await studentService.RetrieveBySchoolAsync(@params, school));
+        Ok(await this.studentService.RetrieveBySchoolAsync(@params, school));
 
     [HttpGet("region")]
     public async Task<IActionResult> GetByRegionAsync([FromQuery] PaginationParams @params, string region) =>
-        Ok(await studentService.RetrieveByRegionAsync(@params, region));    
+        Ok(await this.studentService.RetrieveByRegionAsync(@params, region));    
 }

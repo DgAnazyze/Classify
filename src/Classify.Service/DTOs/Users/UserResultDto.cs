@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Classify.Service.DTOs.Users
 {
-    public class UserForResultDto
+    public class UserResultDto
     {
         public long Id { get; set; }
         public string FirstName { get; set; } = string.Empty;

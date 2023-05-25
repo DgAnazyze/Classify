@@ -51,7 +51,7 @@ public class ExcelReaderService : IExcelReaderService
                             Grade = short.Parse(i[1].ToString()),
                             FirstName = i[2].ToString(),
                             LastName = i[3].ToString(),
-                            Surname = i[4].ToString(),
+                            MiddleName = i[4].ToString(),
                             BirthCertificateSeria = i[5].ToString(),
                             BirthCertificateNumber = i[6].ToString(),
                             PassportSeria = i[7].ToString(),
