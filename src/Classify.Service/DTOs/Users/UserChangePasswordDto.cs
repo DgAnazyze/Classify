@@ -3,7 +3,7 @@
 
 namespace Classify.Service.DTOs.Users
 {
-    public class UserForChangePasswordDto
+    public class UserChangePasswordDto
     {
         [Required(ErrorMessage = "PhoneNumber is requaried!")]
         public string PhoneNumber { get; set; }

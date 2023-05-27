@@ -8,18 +8,16 @@ namespace Classify.Service.Interfaces;
 
 public interface IStudentService
 {
-    public ValueTask<StudentForResultDto> AddAsync(StudentCreationDto studentCreationDto);
-    public ValueTask<IEnumerable<StudentForResultDto>> RetrieveAllAsync(
+    public ValueTask<StudentResultDto> AddAsync(StudentCreationDto studentCreationDto);
+    public ValueTask<IEnumerable<StudentResultDto>> RetrieveAllAsync(
         PaginationParams @params, string search = null);
-    public ValueTask<IEnumerable<StudentForResultDto>> RetrieveByRegionAsync(
+    public ValueTask<IEnumerable<StudentResultDto>> RetrieveByRegionAsync(
        PaginationParams @params, string search = null);
-    public ValueTask<IEnumerable<StudentForResultDto>> RetrieveBySchoolAsync(
+    public ValueTask<IEnumerable<StudentResultDto>> RetrieveBySchoolAsync(
         PaginationParams @params, string search = null);
-   public ValueTask<StudentForResultDto> RetrieveByPassportNumberAsync(
-        Expression<Func<Student, bool>> expression = null);
-   public ValueTask<StudentForResultDto> RetrieveByBirthCertificateNumberAsync(
-        Expression<Func<Student, bool>> expression = null);
-    public ValueTask<StudentForResultDto> RetrieveById(int id);
+    public ValueTask<StudentResultDto> RetrieveByPassportNumberAsync(string search = null);
+    public ValueTask<StudentResultDto> RetrieveByBirthCertificateNumberAsync(string search = null);
+    public ValueTask<StudentResultDto> RetrieveById(int id);
     public ValueTask<bool> RemoveAsync(int id);
-    public ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto dto);
+    public ValueTask<StudentResultDto> ModifyAsync(int id, StudentUpdateDto dto);
 }

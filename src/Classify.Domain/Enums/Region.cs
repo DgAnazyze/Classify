@@ -10,7 +10,6 @@ namespace Classify.Domain.Enums
     { 
         // For Super Admine
         Republic = 0,
-
         ToshkentSh,
         Tashkent,
         Andijan,

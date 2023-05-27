@@ -2,7 +2,7 @@
 
 namespace Classify.Service.DTOs.Users
 {
-    public class UserForUpdateDto
+    public class UserUpdateDto
     {
         [Required]
         public long Id { get; set; }

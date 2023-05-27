@@ -23,8 +23,18 @@ public class AuthService : IAuthService
         this.userService = userService;
     }
 
+    public async Task<LoginResultDto> AuthenticateAsync(string email, string password)
+    {
+        var user = await this.userService.SelectAsync(user => user.Email == email);
+        if (user == null || PasswordHasher.Verify(password, user.PasswordHash))
+            throw new CustomerException(400, "Email or Password went wrong");
 
-
+        return new LoginResultDto()
+        {
+            Token = GenerateToken(user)
+        };
+    }
+    
     public string GenerateToken(User user)
     { 
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -45,21 +55,5 @@ public class AuthService : IAuthService
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
-    }
-    public async Task<LoginResultDto> AuthenticateAsync(string email, string password)
-    {
-        var user = await this.userService.SelectAsync(user => user.Email == email);
-        if (user == null || PasswordHasher.Verify(password, user.PasswordHash))
-            throw new CustomerException(400, "Email or Password went wrong");
-
-        return new LoginResultDto()
-        {
-            Token = GenerateToken(user)
-    };
-    }
-
-    public ValueTask<string> GenerateToken(string email, string password)
-    {
-        throw new NotImplementedException();
     }
 }

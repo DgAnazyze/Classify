@@ -30,7 +30,7 @@ namespace Classify.Service.Services
         /// <param name="dto"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<UserForResultDto> AddAsync(UserCreationDto dto)
+        public async Task<UserResultDto> AddAsync(UserCreationDto dto)
         {
             var user = await this.repository.SelectAsync((u) => u.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower()
             && u.Email.ToLower() == dto.Email.ToLower());
@@ -42,7 +42,7 @@ namespace Classify.Service.Services
             mapped.CreatedAt = DateTime.UtcNow;
             mapped.PasswordHash = PasswordHasher.Hash(dto.Password);
             var result = await this.repository.InserAsync(mapped);
-            return this.mapper.Map<UserForResultDto>(result);
+            return this.mapper.Map<UserResultDto>(result);
         }
         /// <summary>
         /// To change password
@@ -50,7 +50,7 @@ namespace Classify.Service.Services
         /// <param name="dto"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<UserForResultDto> ChangePasswordAsync(UserForChangePasswordDto dto)
+        public async Task<UserResultDto> ChangePasswordAsync(UserChangePasswordDto dto)
         {
             var user = await this.repository.SelectAsync(u => u.PhoneNumber == dto.PhoneNumber);
             if (user is null || user.IsDeleted)
@@ -59,14 +59,14 @@ namespace Classify.Service.Services
             if (!PasswordHasher.Verify(dto.OldPassword, user.PasswordHash))
                 throw new CustomerException(400, "Password is incorrect");
 
-            if (dto.NewPassword != dto.OldPassword)
+            if (dto.NewPassword != dto.ComfirmPassword)
                 throw new CustomerException(400, "New password and confir password aren't equal");
 
             user.PasswordHash = PasswordHasher.Hash(dto.NewPassword);
 
             await this.repository.SavaAsync();
 
-            return this.mapper.Map<UserForResultDto>(user);
+            return this.mapper.Map<UserResultDto>(user);
            }
         /// <summary>
         /// To update
@@ -74,7 +74,7 @@ namespace Classify.Service.Services
         /// <param name="dto"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<UserForResultDto> ModifyAsync(UserForUpdateDto dto)
+        public async Task<UserResultDto> ModifyAsync(UserUpdateDto dto)
         {
             var user = await this.repository.SelectAsync(u => u.Id == dto.Id);
             if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
@@ -89,7 +89,7 @@ namespace Classify.Service.Services
             user.UpdatedAt = DateTime.UtcNow;
             await this.repository.SavaAsync();
 
-            return this.mapper.Map<UserForResultDto>(user);
+            return this.mapper.Map<UserResultDto>(user);
         }
 
         /// <summary>
@@ -113,14 +113,14 @@ namespace Classify.Service.Services
         /// <param name="params"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<UserForResultDto>> RetrieveAllByRoleAsync(PaginationParams @params, Role role = Role.RegianAdmin)
+        public async Task<IEnumerable<UserResultDto>> RetrieveAllByRoleAsync(PaginationParams @params, Role role = Role.RegianAdmin)
         {
             var users = await this.repository.SelectAll()
                 .Where(u => u.Role == role && !u.IsDeleted)
                 .ToPagedList(@params)
                 .ToListAsync();
 
-            return this.mapper.Map<IEnumerable<UserForResultDto>>(users);
+            return this.mapper.Map<IEnumerable<UserResultDto>>(users);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Classify.Service.Services
         /// <param name="params"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params)
+        public async Task<IEnumerable<UserResultDto>> RetrieveAllAsync(PaginationParams @params)
         {
             var users = this.repository.SelectAll().
                  Where(u => u.IsDeleted == false)
@@ -139,21 +139,22 @@ namespace Classify.Service.Services
             if (users is null)
                 throw new CustomerException(404, "Users aren't found");
 
-            return this.mapper.Map<IEnumerable<UserForResultDto>>(users);
+            return this.mapper.Map<IEnumerable<UserResultDto>>(users);
         }
+
         /// <summary>
         /// Select user by email
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<UserForResultDto> RetrieveByEmailAsync(string email)
+        public async Task<UserResultDto> RetrieveByEmailAsync(string email)
         {
             var user = await this.repository.SelectAsync(user => user.Email.ToLower() == email.ToLower());
             if (user is null)
                 throw new CustomerException(404, "Couldn't find user by given email");
 
-            return this.mapper.Map<UserForResultDto>(user);
+            return this.mapper.Map<UserResultDto>(user);
         }
        /// <summary>
        /// Selects User by Phone number
@@ -161,13 +162,13 @@ namespace Classify.Service.Services
        /// <param name="email"></param>
        /// <returns></returns>
        /// <exception cref="CustomerException"></exception>
-        public async Task<UserForResultDto> RetrieveByPhoneNumberAsync(string phoneNumber)
+        public async Task<UserResultDto> RetrieveByPhoneNumberAsync(string phoneNumber)
         {
             var user = await this.repository.SelectAsync(user => user.PhoneNumber.ToLower() == phoneNumber.ToLower());
             if (user is null)
                 throw new CustomerException(404, "Couldn't find user by given Phone Number");
 
-            return this.mapper.Map<UserForResultDto>(user);
+            return this.mapper.Map<UserResultDto>(user);
         }
         /// <summary>
         /// Selects by ID
@@ -175,13 +176,13 @@ namespace Classify.Service.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<UserForResultDto> RetrieveByIdAsync(long id)
+        public async Task<UserResultDto> RetrieveByIdAsync(long id)
         {
             var user = await this.repository.SelectAsync(u => u.Id == id);
             if (user is null || user.IsDeleted)
                 throw new CustomerException(404, "User Not Found");
 
-            return this.mapper.Map<UserForResultDto>(user);
+            return this.mapper.Map<UserResultDto>(user);
         }
         /// <summary>
         /// Selects a user from db by followinf expression
@@ -192,9 +193,20 @@ namespace Classify.Service.Services
         public async Task<User> SelectAsync(Expression<Func<User,bool>> expression)
         {
             var user = await this.repository.SelectAsync(expression);
-            if (user is null || user.IsDeleted) throw new CustomerException(404, "User not found");
+            if (user is null || user.IsDeleted) 
+                throw new CustomerException(404, "User not found");
+
             return user;
         }
-        
+
+        public async Task<UserResultDto> ChangeRoleAsync(UserChangeRoleDto dto)
+        {
+            var user = await this.repository.SelectAsync(u => u.Id == dto.id);
+            if (user is null)
+                throw new CustomerException(404, "User not found");
+
+            user.Role = dto.role;
+            return mapper.Map<UserResultDto>(user);
+        }
     }
 }

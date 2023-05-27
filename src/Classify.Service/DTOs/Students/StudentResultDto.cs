@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Classify.Service.DTOs.Students
 {
-    public class StudentForResultDto
+    public class StudentResultDto
     {
         public long Id { get; set; }
         public short Grade { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Surname { get; set; }
+        public string MiddleName { get; set; }
         public string BirthCertificateSeria { get; set; }
         public string BirthCertificateNumber { get; set; }
         public string PassportSeria { get; set; }

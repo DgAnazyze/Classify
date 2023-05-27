@@ -6,6 +6,10 @@ using Classify.Service.DTOs.Students;
 using Classify.Service.Commons.Exceptions;
 using Classify.Service.Interfaces;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
+using Classify.Service.Commons.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace Classify.Service.Services;
 
@@ -20,32 +24,43 @@ public class StudentService : IStudentService
         this.mapper = mapper;
     }
 
-    public async ValueTask<StudentForResultDto> AddAsync(StudentCreationDto studentCreationDto)
+    /// <summary>
+    /// To add new Student
+    /// </summary>
+    /// <param name="studentCreationDto"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
+    public async ValueTask<StudentResultDto> AddAsync(StudentCreationDto studentCreationDto)
     {
-        var alreadyExistStudent = await this.repository.SelectAsync(u =>
-        u.BirthCertificateNumber == studentCreationDto.BirthCertificateNumber ||
-        u.PassportNumber == studentCreationDto.PassportNumber);
-        if (alreadyExistStudent is not null)
+        var student = await this.repository.SelectAsync(u => u.Id == studentCreationDto.Id);
+        if (student != null)
             throw new CustomerException(403, "Student already exist");
 
         var mapperStudent = this.mapper.Map<Student>(studentCreationDto);
         var result = await this.repository.InserAsync(mapperStudent);
-        await this.repository.SavaAsync();
+    //    await this.repository.SavaAsync();
 
-        return this.mapper.Map<StudentForResultDto>(result);
+        return this.mapper.Map<StudentResultDto>(result);
     }
 
-    public async ValueTask<StudentForResultDto> ModifyAsync(int id, StudentUpdateDto studentUpdateDto)
+    /// <summary>
+    /// To Update
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="studentUpdateDto"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
+    public async ValueTask<StudentResultDto> ModifyAsync(int id, StudentUpdateDto studentUpdateDto)
     {
         var student =  await this.repository.SelectAsync(s => s.Id == id);
-        if (student is null)
+        if (student is null && student.IsDeleted == false)
             throw new CustomerException(404, "Couldn't find student for given id");
 
         
         student.Grade = (studentUpdateDto.Grade == 0 || studentUpdateDto.Grade <= 12) ? student.Grade : studentUpdateDto.Grade;
         student.FirstName = String.IsNullOrEmpty(studentUpdateDto.FirstName) ? student.FirstName : studentUpdateDto.FirstName;
         student.LastName = String.IsNullOrEmpty(studentUpdateDto.LastName) ? student.LastName : studentUpdateDto.LastName;
-        student.Surname = String.IsNullOrEmpty(studentUpdateDto.Surname) ? student.Surname : studentUpdateDto.Surname;
+        student.MiddleName = String.IsNullOrEmpty(studentUpdateDto.MiddleName) ? student.MiddleName : studentUpdateDto.MiddleName;
         student.BirthCertificateSeria = String.IsNullOrEmpty(studentUpdateDto.BirthCertificateSeria) ? student.BirthCertificateSeria : studentUpdateDto.BirthCertificateSeria;
         student.BirthCertificateNumber = String.IsNullOrEmpty(studentUpdateDto.BirthCertificateNumber) ? student.BirthCertificateNumber : studentUpdateDto.BirthCertificateNumber;
         student.PassportNumber = String.IsNullOrEmpty(studentUpdateDto.PassportNumber) ? student.PassportNumber : studentUpdateDto.PassportNumber;
@@ -59,13 +74,19 @@ public class StudentService : IStudentService
         student.UpdatedAt = DateTime.UtcNow;
         await this.repository.SavaAsync();
 
-        return this.mapper.Map<StudentForResultDto>(student);
+        return this.mapper.Map<StudentResultDto>(student);
     }
 
+    /// <summary>
+    /// To delete Students
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
     public async ValueTask<bool> RemoveAsync(int id)
     {
-        var alreadyExistStudent = await this.repository.SelectAsync(u => u.Id == id);
-        if (alreadyExistStudent is null)
+        var student = await this.repository.SelectAsync(u => u.Id == id);
+        if (student is null || student.IsDeleted == true)
             throw new CustomerException(404, "Student not found");
 
         await this.repository.DeleteAsync(x => x.Id == id);
@@ -73,37 +94,101 @@ public class StudentService : IStudentService
         return true;
     }
 
-    public ValueTask<IEnumerable<StudentForResultDto>> RetrieveAllAsync(PaginationParams @params, string search = null)
+    /// <summary>
+    /// Return all Student with pagination 
+    /// </summary>
+    /// <param name="params"></param>
+    /// <param name="search"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
+    public async ValueTask<IEnumerable<StudentResultDto>> RetrieveAllAsync(PaginationParams @params, string search = null)
     {
-        throw new NotImplementedException();
+        var students = await this.repository.SelectAll().
+            Where(x => x.IsDeleted == false)
+            .ToPagedList(@params)
+            .ToListAsync();
+        if (students is null)
+            throw new CustomerException(404, "Students aren't found");
+
+        return this.mapper.Map<IEnumerable<StudentResultDto>>(students);
     }
 
-    public ValueTask<StudentForResultDto> RetrieveByBirthCertificateNumberAsync(Expression<Func<Student, bool>> expression = null)
+    /// <summary>
+    /// Select student by birth certificate number
+    /// </summary>
+    /// <param name="search"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
+    public async ValueTask<StudentResultDto> RetrieveByBirthCertificateNumberAsync(string search = null)
     {
-        throw new NotImplementedException();
+        var Student = await this.repository
+            .SelectAsync(x => x.BirthCertificateNumber == search &&
+                              x.IsDeleted == false);
+        if (Student is null)
+            throw new CustomerException(404, "Couldn't find student by given birth certificate number!");
+
+        return this.mapper.Map<StudentResultDto>(Student);
     }
 
-    public async ValueTask<StudentForResultDto> RetrieveById(int id)
+    /// <summary>
+    /// Serach student by Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
+    public async ValueTask<StudentResultDto> RetrieveById(int id)
     {
-        var alreadyExistStudent = await this.repository.SelectAsync(u => u.Id == id);
-        if (alreadyExistStudent is null || alreadyExistStudent.IsDeleted)
+        var student = await this.repository.SelectAsync(x => x.Id == id && x.IsDeleted == false);
+        if (student is null)
             throw new CustomerException(404, "Student Not Found");
 
-        return this.mapper.Map<StudentForResultDto>(alreadyExistStudent);
+        return this.mapper.Map<StudentResultDto>(student);
+    }
+   
+    /// <summary>
+    /// Serach student with passport number
+    /// </summary>
+    /// <param name="search"></param>
+    /// <returns></returns>
+    /// <exception cref="CustomerException"></exception>
+    public async ValueTask<StudentResultDto> RetrieveByPassportNumberAsync(string search = null)
+    {
+        var student = await this.repository.SelectAsync(x => x.PassportNumber == search && x.IsDeleted == false);
+        if (student is null)
+            throw new CustomerException(404, "Student with this passport number couldn't find!");
+
+        return this.mapper.Map<StudentResultDto>(student);
     }
 
-    public ValueTask<StudentForResultDto> RetrieveByPassportNumberAsync(Expression<Func<Student, bool>> expression = null)
+    /// <summary>
+    /// Кeturn all students from the given region
+    /// </summary>
+    /// <param name="params"></param>
+    /// <param name="search"></param>
+    /// <returns></returns>
+    public async ValueTask<IEnumerable<StudentResultDto>> RetrieveByRegionAsync(PaginationParams @params, string search = null)
     {
-        throw new NotImplementedException();
+        var students = await this.repository.SelectAll()
+            .Where(x => x.Region == search && x.IsDeleted == false)
+            .ToPagedList(@params)
+            .ToListAsync();
+    
+        return this.mapper.Map<IEnumerable<StudentResultDto>>(students);
     }
 
-    public ValueTask<IEnumerable<StudentForResultDto>> RetrieveByRegionAsync(PaginationParams @params, string search = null)
+    /// <summary>
+    /// return all students from the given school
+    /// </summary>
+    /// <param name="params"></param>
+    /// <param name="search"></param>
+    /// <returns></returns>
+    public async ValueTask<IEnumerable<StudentResultDto>> RetrieveBySchoolAsync(PaginationParams @params, string search = null)
     {
-        throw new NotImplementedException();
-    }
+        var students = await this.repository.SelectAll()
+            .Where(x => x.School == search && x.IsDeleted == false)
+            .ToPagedList(@params)
+            .ToListAsync();
 
-    public ValueTask<IEnumerable<StudentForResultDto>> RetrieveBySchoolAsync(PaginationParams @params, string search = null)
-    {
-        throw new NotImplementedException();
+        return this.mapper.Map<IEnumerable<StudentResultDto>>(students);
     }
 }

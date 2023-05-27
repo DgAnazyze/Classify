@@ -12,6 +12,8 @@ namespace Classify.Api.Extensions
         { 
             services.AddScoped<IExcelReaderService, ExcelReaderService>();
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IUserService, UserService>();   
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
