@@ -1,4 +1,6 @@
-﻿namespace Classify.Service.DTOs.LoginDto;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Classify.Service.DTOs.LoginDto;
 
 public class LoginDto
 {
