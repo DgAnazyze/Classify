@@ -8,6 +8,7 @@ namespace Classify.Domain.Entities
     {
         [MaxLength(32)]
         public string FirstName { get; set; } = string.Empty;
+
         [MaxLength(32)]
         public string LastName { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;

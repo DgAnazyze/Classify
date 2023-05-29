@@ -25,7 +25,8 @@ public class AuthService : IAuthService
 
     public async Task<LoginResultDto> AuthenticateAsync(string email, string password)
     {
-        var user = await this.userService.SelectAsync(user => user.Email == email);
+        var user = await this.userService.RetrieveByEmailAsync(email);
+      //  var user = await this.userService.SelectAsync(user => user.Email == email);
         if (user == null || PasswordHasher.Verify(password, user.PasswordHash))
             throw new CustomerException(400, "Email or Password went wrong");
 

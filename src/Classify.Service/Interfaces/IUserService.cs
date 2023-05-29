@@ -11,7 +11,7 @@ namespace Classify.Service.Interfaces
         Task<bool> RemoveAsync(long id);
         Task<UserResultDto> RetrieveByIdAsync(long id);
         Task<UserResultDto> AddAsync(UserCreationDto dto);
-        Task<UserResultDto> RetrieveByEmailAsync(string email);
+        Task<User> RetrieveByEmailAsync(string email);
         Task<UserResultDto> RetrieveByPhoneNumberAsync(string phoneNumber);
         Task<UserResultDto> ModifyAsync(UserUpdateDto dto);
         Task<UserResultDto> ChangePasswordAsync(UserChangePasswordDto dto);

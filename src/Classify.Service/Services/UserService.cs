@@ -35,7 +35,7 @@ namespace Classify.Service.Services
             var user = await this.repository.SelectAsync((u) => u.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower()
             && u.Email.ToLower() == dto.Email.ToLower());
 
-            if (user is not null)
+            if (user is not null && !user.IsDeleted)
                 throw new CustomerException(403, "User is already exists");
 
             var mapped = this.mapper.Map<User>(dto);
@@ -56,13 +56,15 @@ namespace Classify.Service.Services
             if (user is null || user.IsDeleted)
                 throw new CustomerException(404, "User not found");
 
-            if (!PasswordHasher.Verify(dto.OldPassword, user.PasswordHash))
-                throw new CustomerException(400, "Password is incorrect");
+             if (!PasswordHasher.Verify(dto.OldPassword, user.PasswordHash))
+           //  if (dto.OldPassword != user.PasswordHash)
+            throw new CustomerException(400, "Password is incorrect");
 
             if (dto.NewPassword != dto.ComfirmPassword)
                 throw new CustomerException(400, "New password and confir password aren't equal");
 
             user.PasswordHash = PasswordHasher.Hash(dto.NewPassword);
+            //user.PasswordHash = dto.NewPassword;
 
             await this.repository.SavaAsync();
 
@@ -148,13 +150,14 @@ namespace Classify.Service.Services
         /// <param name="email"></param>
         /// <returns></returns>
         /// <exception cref="CustomerException"></exception>
-        public async Task<UserResultDto> RetrieveByEmailAsync(string email)
+        public async Task<User> RetrieveByEmailAsync(string email)
         {
             var user = await this.repository.SelectAsync(user => user.Email.ToLower() == email.ToLower());
             if (user is null)
                 throw new CustomerException(404, "Couldn't find user by given email");
 
-            return this.mapper.Map<UserResultDto>(user);
+            //  return this.mapper.Map<UserResultDto>(user);
+            return user;
         }
        /// <summary>
        /// Selects User by Phone number
@@ -206,6 +209,10 @@ namespace Classify.Service.Services
                 throw new CustomerException(404, "User not found");
 
             user.Role = dto.role;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await this.repository.SavaAsync();
+
             return mapper.Map<UserResultDto>(user);
         }
     }
