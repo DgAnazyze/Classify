@@ -24,7 +24,7 @@ public class UserController : ControllerBase
         this.userService = userService;
     }
 
-    [HttpPost("add")]
+    [HttpPost("add"), Authorize("SuperAdmin")]
     public async Task<IActionResult> AddUserAsync(UserCreationDto dto) =>
         Ok(await this.userService.AddAsync(dto));
 
